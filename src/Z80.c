@@ -619,7 +619,7 @@ void IntZ80(Z80 *R,zword Vector)
 /** returns INT_QUIT. It will return the PC at which        **/
 /** emulation stopped, and current register values in R.    **/
 /*************************************************************/
-#ifndef EXECZ80
+#ifdef RUNZ80
 zword RunZ80(Z80 *R)
 {
   register byte I;
@@ -681,4 +681,51 @@ zword RunZ80(Z80 *R)
   /* Execution stopped */
   return(R->PC.W);
 }
-#endif /* !EXECZ80 */
+#endif /* !RUNZ80 */
+
+/** StepZ80() ************************************************/
+/** This function will execute a single Z80 opcode.         **/
+/** It will return the current register values in R.        **/
+/*************************************************************/
+#ifdef STEPZ80
+void StepZ80(register Z80 *R)
+{
+  register byte I;
+  register pair J;
+
+#ifdef DEBUG
+      /* Turn tracing on when reached trap address */
+      if(R->PC.W==R->Trap) R->Trace=1;
+      /* Call single-step debugger, exit if requested */
+      if(R->Trace)
+        if(!DebugZ80(R)) return(R->ICount);
+#endif
+
+      /* Read opcode and count cycles */
+      I=OpZ80(R->PC.W++);
+      /* Count cycles */
+      R->ICount-=Cycles[I];
+
+      /* Interpret opcode */
+      switch(I)
+      {
+#include "Codes.h"
+        case PFX_CB: CodesCB(R);break;
+        case PFX_ED: CodesED(R);break;
+        case PFX_FD: CodesFD(R);break;
+        case PFX_DD: CodesDD(R);break;
+      }
+
+    /* Unless we have come here after EI, exit */
+    if(!(R->IFF&IFF_EI)) return(R->ICount);
+    else
+    {
+      /* Done with AfterEI state */
+      R->IFF=(R->IFF&~IFF_EI)|IFF_1;
+      /* Restore the ICount */
+      R->ICount+=R->IBackup-1;
+      /* Interrupt CPU if needed */
+      if((R->IRequest!=INT_NONE)&&(R->IRequest!=INT_QUIT)) IntZ80(R,R->IRequest);
+    }
+}
+#endif /* STEPZ80 */

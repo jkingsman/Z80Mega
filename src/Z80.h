@@ -21,6 +21,7 @@ extern "C" {
 /* #define DEBUG */            /* Compile debugging version  */
 #define LSB_FIRST              /* Compile for low-endian CPU */
 /* #define MSB_FIRST */        /* Compile for hi-endian CPU  */
+#define STEPZ80                /* Enable the stepz80 function*/
 
                                /* LoopZ80() may return:      */
 #define INT_RST00   0x00C7     /* RST 00h                    */
@@ -124,8 +125,16 @@ void IntZ80(register Z80 *R,register zword Vector);
 /** returns INT_QUIT. It will return the PC at which        **/
 /** emulation stopped, and current register values in R.    **/
 /*************************************************************/
-#ifndef EXECZ80
+#ifdef RUNZ80
 zword RunZ80(register Z80 *R);
+#endif
+
+/** StepZ80() ************************************************/
+/** This function will execute a single Z80 opcode.         **/
+/** It will return the current register values in R.        **/
+/*************************************************************/
+#ifdef STEPZ80
+void StepZ80(register Z80 *R);
 #endif
 
 /** RdZ80()/WrZ80() ******************************************/
