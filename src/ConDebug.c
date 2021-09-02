@@ -83,7 +83,7 @@ byte DebugZ80(Z80 *R)
       sprintf(S,"PC %04X",R->PC.W);
       CONSetColor(CLR_BACK,CLR_PC);
       CONPrint(X+24,Y+18,S);
-      sprintf(S,"SP %04X",R->SP.W);
+      sprintf(S,"SP %04X",R->SPtr.W);
       CONSetColor(CLR_BACK,CLR_SP);
       CONPrint(X+24,Y+19,S);
 
@@ -123,9 +123,9 @@ byte DebugZ80(Z80 *R)
         for(J=0,A=Addr;J<20;J++,A+=4)
         {
           if(A==R->PC.W)      CONSetColor(CLR_BACK,CLR_PC);
-          else if(A==R->SP.W) CONSetColor(CLR_BACK,CLR_SP);
+          else if(A==R->SPtr.W) CONSetColor(CLR_BACK,CLR_SP);
           else                CONSetColor(CLR_TEXT,CLR_BACK);
-          sprintf(S,"%04X%c",A,A==R->PC.W? CON_MORE:A==R->SP.W? CON_LESS:':');
+          sprintf(S,"%04X%c",A,A==R->PC.W? CON_MORE:A==R->SPtr.W? CON_LESS:':');
           CONPrint(X+1,Y+J+2,S);
 
           CONSetColor(CLR_TEXT,CLR_BACK);
@@ -144,9 +144,9 @@ byte DebugZ80(Z80 *R)
         for(J=0,A=Addr;J<20;J++)
         {
           if(A==R->PC.W)      CONSetColor(CLR_BACK,CLR_PC);
-          else if(A==R->SP.W) CONSetColor(CLR_BACK,CLR_SP);
+          else if(A==R->SPtr.W) CONSetColor(CLR_BACK,CLR_SP);
           else                CONSetColor(CLR_TEXT,CLR_BACK);
-          sprintf(S,"%04X%c",A,A==R->PC.W? CON_MORE:A==R->SP.W? CON_LESS:':');
+          sprintf(S,"%04X%c",A,A==R->PC.W? CON_MORE:A==R->SPtr.W? CON_LESS:':');
           CONPrint(X+1,Y+J+2,S);
 
           ABuf[J]=A;
@@ -248,7 +248,7 @@ byte DebugZ80(Z80 *R)
         break;
       case 'S':
         MemoryDump=1;
-        Addr=R->SP.W;
+        Addr=R->SPtr.W;
         K=0;
         A=~Addr;
         break;

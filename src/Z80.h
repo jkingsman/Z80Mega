@@ -82,7 +82,7 @@ typedef union
 
 typedef struct
 {
-  pair AF,BC,DE,HL,IX,IY,PC,SP;       /* Main registers      */
+  pair AF,BC,DE,HL,IX,IY,PC,SPtr;       /* Main registers      */
   pair AF1,BC1,DE1,HL1;               /* Shadow registers    */
   byte IFF,I;                         /* Interrupt registers */
   byte R;                             /* Refresh register    */

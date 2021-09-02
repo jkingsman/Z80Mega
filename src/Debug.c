@@ -326,12 +326,12 @@ byte DebugZ80(Z80 *R)
   printf
   (
     "AF:%04X HL:%04X DE:%04X BC:%04X PC:%04X SP:%04X IX:%04X IY:%04X I:%02X\n",
-    R->AF.W,R->HL.W,R->DE.W,R->BC.W,R->PC.W,R->SP.W,R->IX.W,R->IY.W,R->I
+    R->AF.W,R->HL.W,R->DE.W,R->BC.W,R->PC.W,R->SPtr.W,R->IX.W,R->IY.W,R->I
   );
   printf
   (
     "AT PC: [%02X - %s]   AT SP: [%04X]   FLAGS: [%s]   %s: %s\n\n",
-    RdZ80(R->PC.W),S,RdZ80(R->SP.W)+RdZ80(R->SP.W+1)*256,T,
+    RdZ80(R->PC.W),S,RdZ80(R->SPtr.W)+RdZ80(R->SPtr.W+1)*256,T,
     R->IFF&0x04? "IM2":R->IFF&0x02? "IM1":"IM0",
     R->IFF&0x01? "EI":"DI"
   );

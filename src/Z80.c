@@ -113,22 +113,22 @@ INLINE byte OpZ80(word A) { return(RAM[A>>13][A&0x1FFF]); }
 #define M_RES(Bit,Rg) Rg&=~(1<<Bit)
 
 #define M_POP(Rg)      \
-  R->Rg.B.l=OpZ80(R->SP.W++);R->Rg.B.h=OpZ80(R->SP.W++)
+  R->Rg.B.l=OpZ80(R->SPtr.W++);R->Rg.B.h=OpZ80(R->SPtr.W++)
 #define M_PUSH(Rg)     \
-  WrZ80(--R->SP.W,R->Rg.B.h);WrZ80(--R->SP.W,R->Rg.B.l)
+  WrZ80(--R->SPtr.W,R->Rg.B.h);WrZ80(--R->SPtr.W,R->Rg.B.l)
 
 #define M_CALL         \
   J.B.l=OpZ80(R->PC.W++);J.B.h=OpZ80(R->PC.W++);         \
-  WrZ80(--R->SP.W,R->PC.B.h);WrZ80(--R->SP.W,R->PC.B.l); \
+  WrZ80(--R->SPtr.W,R->PC.B.h);WrZ80(--R->SPtr.W,R->PC.B.l); \
   R->PC.W=J.W; \
   JumpZ80(J.W)
 
 #define M_JP  J.B.l=OpZ80(R->PC.W++);J.B.h=OpZ80(R->PC.W);R->PC.W=J.W;JumpZ80(J.W)
 #define M_JR  R->PC.W+=(offset)OpZ80(R->PC.W)+1;JumpZ80(R->PC.W)
-#define M_RET R->PC.B.l=OpZ80(R->SP.W++);R->PC.B.h=OpZ80(R->SP.W++);JumpZ80(R->PC.W)
+#define M_RET R->PC.B.l=OpZ80(R->SPtr.W++);R->PC.B.h=OpZ80(R->SPtr.W++);JumpZ80(R->PC.W)
 
 #define M_RST(Ad)      \
-  WrZ80(--R->SP.W,R->PC.B.h);WrZ80(--R->SP.W,R->PC.B.l);R->PC.W=Ad;JumpZ80(Ad)
+  WrZ80(--R->SPtr.W,R->PC.B.h);WrZ80(--R->SPtr.W,R->PC.B.l);R->PC.W=Ad;JumpZ80(Ad)
 
 #define M_LDWORD(Rg)   \
   R->Rg.B.l=OpZ80(R->PC.W++);R->Rg.B.h=OpZ80(R->PC.W++)
@@ -475,7 +475,7 @@ static void CodesFD(register Z80 *R)
 void ResetZ80(Z80 *R)
 {
   R->PC.W     = 0x0000;
-  R->SP.W     = 0xF000;
+  R->SPtr.W     = 0xF000;
   R->AF.W     = 0x0000;
   R->BC.W     = 0x0000;
   R->DE.W     = 0x0000;

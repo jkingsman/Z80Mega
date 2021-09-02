@@ -18,12 +18,12 @@ case DB_FE:     PatchZ80(R);break;
 case ADC_HL_BC: M_ADCW(BC);break;
 case ADC_HL_DE: M_ADCW(DE);break;
 case ADC_HL_HL: M_ADCW(HL);break;
-case ADC_HL_SP: M_ADCW(SP);break;
+case ADC_HL_SP: M_ADCW(SPtr);break;
 
 case SBC_HL_BC: M_SBCW(BC);break;
 case SBC_HL_DE: M_SBCW(DE);break;
 case SBC_HL_HL: M_SBCW(HL);break;
-case SBC_HL_SP: M_SBCW(SP);break;
+case SBC_HL_SP: M_SBCW(SPtr);break;
 
 case LD_xWORDe_HL:
   J.B.l=OpZ80(R->PC.W++);
@@ -46,8 +46,8 @@ case LD_xWORDe_BC:
 case LD_xWORDe_SP:
   J.B.l=OpZ80(R->PC.W++);
   J.B.h=OpZ80(R->PC.W++);
-  WrZ80(J.W++,R->SP.B.l);
-  WrZ80(J.W,R->SP.B.h);
+  WrZ80(J.W++,R->SPtr.B.l);
+  WrZ80(J.W,R->SPtr.B.h);
   break;
 
 case LD_HL_xWORDe:
@@ -71,8 +71,8 @@ case LD_BC_xWORDe:
 case LD_SP_xWORDe:
   J.B.l=OpZ80(R->PC.W++);
   J.B.h=OpZ80(R->PC.W++);
-  R->SP.B.l=RdZ80(J.W++);
-  R->SP.B.h=RdZ80(J.W);
+  R->SPtr.B.l=RdZ80(J.W++);
+  R->SPtr.B.h=RdZ80(J.W);
   break;
 
 case RRD:

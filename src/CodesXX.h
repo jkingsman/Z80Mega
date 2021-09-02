@@ -134,27 +134,27 @@ case CP_BYTE:  I=OpZ80(R->PC.W++);M_CP(I);break;
 case LD_BC_WORD: M_LDWORD(BC);break;
 case LD_DE_WORD: M_LDWORD(DE);break;
 case LD_HL_WORD: M_LDWORD(XX);break;
-case LD_SP_WORD: M_LDWORD(SP);break;
+case LD_SP_WORD: M_LDWORD(SPtr);break;
 
 case LD_PC_HL: R->PC.W=R->XX.W;JumpZ80(R->PC.W);break;
-case LD_SP_HL: R->SP.W=R->XX.W;break;
+case LD_SP_HL: R->SPtr.W=R->XX.W;break;
 case LD_A_xBC: R->AF.B.h=RdZ80(R->BC.W);break;
 case LD_A_xDE: R->AF.B.h=RdZ80(R->DE.W);break;
 
 case ADD_HL_BC:  M_ADDW(XX,BC);break;
 case ADD_HL_DE:  M_ADDW(XX,DE);break;
 case ADD_HL_HL:  M_ADDW(XX,XX);break;
-case ADD_HL_SP:  M_ADDW(XX,SP);break;
+case ADD_HL_SP:  M_ADDW(XX,SPtr);break;
 
 case DEC_BC:   R->BC.W--;break;
 case DEC_DE:   R->DE.W--;break;
 case DEC_HL:   R->XX.W--;break;
-case DEC_SP:   R->SP.W--;break;
+case DEC_SP:   R->SPtr.W--;break;
 
 case INC_BC:   R->BC.W++;break;
 case INC_DE:   R->DE.W++;break;
 case INC_HL:   R->XX.W++;break;
-case INC_SP:   R->SP.W++;break;
+case INC_SP:   R->SPtr.W++;break;
 
 case DEC_B:    M_DEC(R->BC.B.h);break;
 case DEC_C:    M_DEC(R->BC.B.l);break;
@@ -382,8 +382,8 @@ case LD_xWORD_A:
   break;
 
 case EX_HL_xSP:
-  J.B.l=RdZ80(R->SP.W);WrZ80(R->SP.W++,R->XX.B.l);
-  J.B.h=RdZ80(R->SP.W);WrZ80(R->SP.W--,R->XX.B.h);
+  J.B.l=RdZ80(R->SPtr.W);WrZ80(R->SPtr.W++,R->XX.B.l);
+  J.B.h=RdZ80(R->SPtr.W);WrZ80(R->SPtr.W--,R->XX.B.h);
   R->XX.W=J.W;
   break;
 
