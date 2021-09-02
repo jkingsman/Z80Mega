@@ -34,27 +34,27 @@
 #ifdef COLEM
 #define RdZ80 RDZ80
 extern byte *ROMPage[];
-INLINE byte RdZ80(word A) { return(ROMPage[A>>13][A&0x1FFF]); }
+INLINE byte RdZ80(zword A) { return(ROMPage[A>>13][A&0x1FFF]); }
 #endif
 
 #ifdef SPECCY
 #define RdZ80 RDZ80
 #define WrZ80 WRZ80
 extern byte *Page[],*ROM;
-INLINE byte RdZ80(word A)        { return(Page[A>>13][A&0x1FFF]); }
-INLINE void WrZ80(word A,byte V) { if(Page[A>>13]<ROM) Page[A>>13][A&0x1FFF]=V; }
+INLINE byte RdZ80(zword A)        { return(Page[A>>13][A&0x1FFF]); }
+INLINE void WrZ80(zword A,byte V) { if(Page[A>>13]<ROM) Page[A>>13][A&0x1FFF]=V; }
 #endif
 
 #ifdef MG
 #define RdZ80 RDZ80
 extern byte *Page[];
-INLINE byte RdZ80(word A) { return(Page[A>>13][A&0x1FFF]); }
+INLINE byte RdZ80(zword A) { return(Page[A>>13][A&0x1FFF]); }
 #endif
 
 #ifdef FMSX
 #define FAST_RDOP
 extern byte *RAM[];
-INLINE byte OpZ80(word A) { return(RAM[A>>13][A&0x1FFF]); }
+INLINE byte OpZ80(zword A) { return(RAM[A>>13][A&0x1FFF]); }
 #endif
 
 /** FAST_RDOP ************************************************/
@@ -553,7 +553,7 @@ int ExecZ80(register Z80 *R,register int RunCycles)
 /** IntZ80() *************************************************/
 /** This function will generate interrupt of given vector.  **/
 /*************************************************************/
-void IntZ80(Z80 *R,word Vector)
+void IntZ80(Z80 *R,zword Vector)
 {
   /* If HALTed, take CPU off HALT instruction */
   if(R->IFF&IFF_HALT) { R->PC.W++;R->IFF&=~IFF_HALT; }
@@ -585,7 +585,7 @@ void IntZ80(Z80 *R,word Vector)
     if(R->IFF&IFF_IM2)
     {
       /* Make up the vector address */
-      Vector=(Vector&0xFF)|((word)(R->I)<<8);
+      Vector=(Vector&0xFF)|((zword)(R->I)<<8);
       /* Read the vector */
       R->PC.B.l=RdZ80(Vector++);
       R->PC.B.h=RdZ80(Vector);
@@ -620,7 +620,7 @@ void IntZ80(Z80 *R,word Vector)
 /** emulation stopped, and current register values in R.    **/
 /*************************************************************/
 #ifndef EXECZ80
-word RunZ80(Z80 *R)
+zword RunZ80(Z80 *R)
 {
   register byte I;
   register pair J;

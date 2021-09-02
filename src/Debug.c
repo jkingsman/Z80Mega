@@ -241,12 +241,12 @@ static const char *MnemonicsXCB[256] =
 /** the output text into S. It will return the number of    **/
 /** bytes disassembled.                                     **/
 /*************************************************************/
-static int DAsm(char *S,word A)
+static int DAsm(char *S,zword A)
 {
   char R[128],H[10],C,*P;
   const char *T;
   byte J,Offset;
-  word B;
+  zword B;
 
   Offset=0;
   B=A;
@@ -381,7 +381,7 @@ byte DebugZ80(Z80 *R)
 
       case 'M':
         {
-          word Addr;
+          zword Addr;
 
           if(strlen(S)>1) sscanf(S+1,"%hX",&Addr); else Addr=R->PC.W;
           puts("");
@@ -400,7 +400,7 @@ byte DebugZ80(Z80 *R)
 
       case 'D':
         {
-          word Addr;
+          zword Addr;
 
           if(strlen(S)>1) sscanf(S+1,"%hX",&Addr); else Addr=R->PC.W;
           puts("");

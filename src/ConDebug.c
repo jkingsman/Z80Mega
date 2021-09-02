@@ -52,7 +52,7 @@ static byte ChrDump(byte C)
 byte DebugZ80(Z80 *R)
 {
   char S[1024];
-  word A,Addr,ABuf[20];
+  zword A,Addr,ABuf[20];
   int J,I,K,X,Y,MemoryDump,DrawWindow,ExitNow;
 
   /* If we don't have enough screen estate... */
