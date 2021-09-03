@@ -1,4 +1,6 @@
-# Arduino Mega Z80 Core
+# Z80 Core for Arduino Mega
+
+**This library only functions with the Arduino Mega or Mega 2560 due to memory constraints!**
 
 This is a free, open source project which comprises light modification of Marat Fayzullin's brilliant Z80 emulator in C in order to make it compatible with the Arduino Mega (other Arduinos do not have the memory to run it). You can view his [download page for the original code here](https://fms.komkon.org/EMUL8/). This library is based off of [`Z80-081707.zip`](https://fms.komkon.org/EMUL8/Z80-081707.zip).
 
