@@ -70,7 +70,7 @@ void loop() {
 
   // display the contents of memory where we're counting up (0x0010)
   Serial.print("Current value of 0x0010: ");
-  Serial.println(RdZ80(0x010));
+  Serial.println(RdZ80(0x0010));
 
   // delay before stepping again so you can watch it count up slowly
   delay(STEP_DELAY);
