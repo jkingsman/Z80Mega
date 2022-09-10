@@ -3,19 +3,21 @@
 
 #include <Z80.h>
 
+#define UNUSED(A) {do { (void) A; } while (false);}
+
 /*
  * Global declaration of RAM. This demo program counts
  * up by 2s at memory address 0x0010.
  */
 byte ram[MEM_SIZE] = {
   // count by 2s at 0x10
-  0x3E, 0x00,         // LD   A,$04
-  0x32, 0x10, 0x00,   // LD   ($0010),A
-  0x3A, 0x10, 0x00,   // LD   A,($0010)
-  0x3C,               // INC   A
-  0x3C,               // INC   A
-  0x32, 0x10, 0x00,   // LD   ($0010),A
-  0x18, 0xF6          // JR   $5
+  0x3E, 0x00,        // LD   A,$04
+  0x32, 0x10, 0x00,  // LD   ($0010),A
+  0x3A, 0x10, 0x00,  // LD   A,($0010)
+  0x3C,              // INC   A
+  0x3C,              // INC   A
+  0x32, 0x10, 0x00,  // LD   ($0010),A
+  0x18, 0xF6         // JR   $5
 };
 
 /*
@@ -36,18 +38,24 @@ byte RdZ80(register zword Addr) {
 // IO -- output the Value on the Port (currently does nothing)
 // This is generally optional unless your code uses IO
 // Can be left blank.
-void OutZ80(register zword Port, register byte Value) {}
+void OutZ80(register zword Port, register byte Value) {
+  UNUSED(Port);
+  UNUSED(Value);
+}
 
 // IO -- read a value from Port (currently defaults to 0)
 // This is generally optional unless your code uses IO
 // Can be left empty as long as it returns a byte.
 byte InZ80(register zword Port) {
+  UNUSED(Port);
   return 0;
 }
 
 // Advanced -- called when an emulator-specific opcode of
 // ED FE is encountered. Generally can be left empty.
-void PatchZ80(register Z80 *R) {}
+void PatchZ80(register Z80 *R) {
+    UNUSED(R);
+}
 
 // create a CPU core object
 Z80 cpu;
