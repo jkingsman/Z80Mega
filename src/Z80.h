@@ -22,6 +22,7 @@ extern "C" {
 #define LSB_FIRST              /* Compile for low-endian CPU */
 /* #define MSB_FIRST */        /* Compile for hi-endian CPU  */
 #define STEPZ80                /* Enable the stepz80 function*/
+#define EXECZ80                /* Enable the execz80 function*/
 
                                /* LoopZ80() may return:      */
 #define INT_RST00   0x00C7     /* RST 00h                    */
